@@ -4,9 +4,18 @@
  * See https://eecs285.github.io/p2-tefball/ for the specification.
  */
 
-package eecs285.proj2.jinyangd.<uniqname>; // replace with your uniqname
+package eecs285.proj2.jinyangd; // replace with your uniqname
+
+import java.util.ArrayList;
 
 public class PlayingField {
+  public int numPlayers;
+  public int fieldWidth;
+  public int fieldHeight;
+  public ArrayList<Player> players = new ArrayList<>();
+  public int quarterbackCount = 0;
+  public int receiverCount = 0;
+  public int defenderCount = 0;
 
   /**
    * Creates a PlayingField object.
@@ -18,7 +27,9 @@ public class PlayingField {
   PlayingField(int numPlayers,
                int fieldWidth,
                int fieldHeight) {
-    // your code here
+    this.numPlayers = numPlayers;
+    this.fieldWidth = fieldWidth;
+    this.fieldHeight = fieldHeight;
   }
 
   /**
@@ -45,7 +56,13 @@ public class PlayingField {
                       double throwToRow,
                       double speed,
                       double throwSpeed) {
-    // your code here
+    players.add(
+        new Quarterback(
+            playerIndex, startColumn, startRow, stopColumn,stopRow,
+            throwToColumn, throwToRow, speed, throwSpeed
+        )
+    );
+    quarterbackCount++;
   }
 
   /**
@@ -71,7 +88,13 @@ public class PlayingField {
                    double stopColumn,
                    double stopRow,
                    double speed) {
-    // your code here
+    players.add(
+        new Receiver(
+            playerIndex, startColumn, startRow,
+            intermediateColumn, intermediateRow, stopColumn, stopRow, speed
+        )
+    );
+    receiverCount++;
   }
 
   /**
@@ -87,7 +110,10 @@ public class PlayingField {
                    double startColumn,
                    double startRow,
                    double speed) {
-    // your code here
+    players.add(
+        new Defender(playerIndex, startColumn, startRow, speed)
+    );
+    defenderCount++;
   }
 
   /**
@@ -99,7 +125,8 @@ public class PlayingField {
    * @return  whether or not the game is valid
    */
   boolean checkIsValidGame() {
-    return false; // replace with your solution
+    return quarterbackCount == 1 &&
+          (quarterbackCount + receiverCount + defenderCount) == numPlayers;
   }
 
   /**

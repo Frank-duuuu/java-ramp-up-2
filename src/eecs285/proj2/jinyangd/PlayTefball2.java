@@ -1,6 +1,6 @@
-package eecs285.proj2.jinyangd.<uniqname>; // replace with your uniqname
+package eecs285.proj2.jinyangd; // replace with your uniqname
 
-import eecs285.proj2.PlayingField;
+import eecs285.proj2.jinyangd.PlayingField;
 
 import static java.lang.System.out;
 
