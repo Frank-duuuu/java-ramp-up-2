@@ -6,6 +6,8 @@ public class Quarterback extends Player {
   public double throwToColumn;
   public double throwToRow;
   public double throwSpeed;
+  public double curColumn;
+  public double curRow;
 
   Quarterback(int playerIndex,
               double startColumn,
@@ -22,10 +24,45 @@ public class Quarterback extends Player {
     this.throwToColumn = throwToColumn;
     this.throwToRow = throwToRow;
     this.throwSpeed = throwSpeed;
+    this.curColumn = startColumn;
+    this.curRow = startRow;
   }
 
   @Override
   public void performMove() {
-    return;
+    if (curColumn == stopColumn && curRow == stopRow) return;
+    double dirColumn = stopColumn - curColumn;
+    double dirRow = stopRow - curRow;
+    double length = Math.sqrt(dirColumn * dirColumn + dirRow * dirRow);
+    double dirColUnit = dirColumn / length;
+    double dirRowUnit = dirRow / length;
+    double stepColumn = dirColUnit * speed;
+    double stepRow = dirRowUnit * speed;
+    double tempColumn = curColumn + stepColumn;
+    double tempRow = curRow + stepRow;
+    if ((curColumn <= stopColumn && curRow <= stopRow) && 
+        (tempColumn >= stopColumn && tempRow >= stopRow)) {
+      curColumn = stopColumn;
+      curRow = stopRow;
+    }
+    else if ((curColumn >= stopColumn && curRow >= stopRow) &&
+             (tempColumn <= stopColumn && tempRow <= stopRow)) {
+      curColumn = stopColumn;
+      curRow = stopRow;
+    }
+    else if ((curColumn <= stopColumn && curRow >= stopRow) &&
+             (tempColumn >= stopColumn && tempRow <= stopRow)) {
+      curColumn = stopColumn;
+      curRow = stopRow;
+    }
+    else if ((curColumn >= stopColumn && curRow <= stopRow) &&
+             (tempColumn <= stopColumn && tempRow >= stopRow)) {
+      curColumn = stopColumn;
+      curRow = stopRow;
+    }
+    else {
+      curColumn = tempColumn;
+      curRow = tempRow;
+    }
   }
 }
