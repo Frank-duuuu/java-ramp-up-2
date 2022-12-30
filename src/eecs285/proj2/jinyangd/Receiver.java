@@ -5,6 +5,9 @@ public class Receiver extends Player {
   public double intermediateRow;
   public double stopColumn;
   public double stopRow;
+  public double curColumn;
+  public double curRow;
+  public boolean passedIntermediate = false;
 
   Receiver(int playerIndex,
            double startColumn,
@@ -19,10 +22,69 @@ public class Receiver extends Player {
     this.intermediateRow = intermediateRow;
     this.stopColumn = stopColumn;
     this.stopRow = stopRow;
+    this.curColumn = startColumn;
+    this.curRow = startRow;
   }
 
+  private boolean checkPassed(double destColumn, double destRow,
+                           double tempColumn, double tempRow) {
+    if ((curColumn <= destColumn && curRow <= destRow) &&
+        (tempColumn >= destColumn && tempRow >= destRow)) {
+      curColumn = destColumn;
+      curRow = destRow;
+      return true;
+    }
+    else if ((curColumn >= destColumn && curRow >= destRow) &&
+        (tempColumn <= destColumn && tempRow <= destRow)) {
+      curColumn = destColumn;
+      curRow = destRow;
+      return true;
+    }
+    else if ((curColumn <= destColumn && curRow >= destRow) &&
+        (tempColumn >= destColumn && tempRow <= destRow)) {
+      curColumn = destColumn;
+      curRow = destRow;
+      return true;
+    }
+    else if ((curColumn >= destColumn && curRow <= destRow) &&
+        (tempColumn <= destColumn && tempRow >= destRow)) {
+      curColumn = destColumn;
+      curRow = destRow;
+      return true;
+    }
+    else {
+      curColumn = tempColumn;
+      curRow = tempRow;
+      return false;
+    }
+  }
   @Override
   public void performMove() {
-    return;
+    if (curColumn == stopColumn && curRow == stopRow) return;
+    if (!passedIntermediate) {
+      double dirColumn = intermediateColumn - curColumn;
+      double dirRow = intermediateRow - curRow;
+      double length = Math.sqrt(dirColumn * dirColumn + dirRow * dirRow);
+      double dirColUnit = dirColumn / length;
+      double dirRowUnit = dirRow / length;
+      double stepColumn = dirColUnit * speed;
+      double stepRow = dirRowUnit * speed;
+      double tempColumn = curColumn + stepColumn;
+      double tempRow = curRow + stepRow;
+      if (checkPassed(intermediateColumn, intermediateRow, tempColumn, tempRow)) {
+        passedIntermediate = true;
+      }
+      return;
+    }
+    double dirColumn = stopColumn - curColumn;
+    double dirRow = stopRow - curRow;
+    double length = Math.sqrt(dirColumn * dirColumn + dirRow * dirRow);
+    double dirColUnit = dirColumn / length;
+    double dirRowUnit = dirRow / length;
+    double stepColumn = dirColUnit * speed;
+    double stepRow = dirRowUnit * speed;
+    double tempColumn = curColumn + stepColumn;
+    double tempRow = curRow + stepRow;
+    checkPassed(stopColumn, stopRow, tempColumn, tempRow);
   }
 }
