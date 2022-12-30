@@ -5,8 +5,6 @@ public class Receiver extends Player {
   public double intermediateRow;
   public double stopColumn;
   public double stopRow;
-  public double curColumn;
-  public double curRow;
   public boolean passedIntermediate = false;
 
   Receiver(int playerIndex,
@@ -22,8 +20,6 @@ public class Receiver extends Player {
     this.intermediateRow = intermediateRow;
     this.stopColumn = stopColumn;
     this.stopRow = stopRow;
-    this.curColumn = startColumn;
-    this.curRow = startRow;
   }
 
   private boolean checkPassed(double destColumn, double destRow,

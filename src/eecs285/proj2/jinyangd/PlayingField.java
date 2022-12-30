@@ -16,6 +16,8 @@ public class PlayingField {
   public int quarterbackCount = 0;
   public int receiverCount = 0;
   public int defenderCount = 0;
+  public int quarterbackIndex;
+  public Ball ball;
 
   /**
    * Creates a PlayingField object.
@@ -56,12 +58,14 @@ public class PlayingField {
                       double throwToRow,
                       double speed,
                       double throwSpeed) {
+    quarterbackIndex = players.size();
     players.add(
         new Quarterback(
             playerIndex, startColumn, startRow, stopColumn,stopRow,
             throwToColumn, throwToRow, speed, throwSpeed
         )
     );
+    ball = new Ball(stopColumn, stopRow, throwToColumn, throwToRow, throwSpeed);
     quarterbackCount++;
   }
 
@@ -145,7 +149,22 @@ public class PlayingField {
    * @return  enum value corresponding to the result of the game
    */
   GameResultEnum playBall() {
-    return GameResultEnum.ONGOING; // replace with your solution
+    if (players.get(quarterbackIndex).isThrown) {
+      ball.performMove();
+    }
+    for (Player player : players) {
+      if (player instanceof Defender) {
+        if (players.get(quarterbackIndex).isThrown) {
+          ((Defender) player).stopColumn = ball.curColumn;
+          ((Defender) player).stopRow = ball.curRow;
+        }
+        else {
+          ((Defender) player).stopColumn = players.get(quarterbackIndex).curColumn;
+          ((Defender) player).stopRow = players.get(quarterbackIndex).curRow;
+        }
+      }
+      player.performMove();
+    }
   }
 
 }

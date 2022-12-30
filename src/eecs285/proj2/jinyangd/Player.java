@@ -5,7 +5,9 @@ public abstract class Player {
   public double startColumn;
   public double startRow;
   public double speed;
-
+  public double curColumn;
+  public double curRow;
+  public boolean isThrown = false;
   Player(int playerIndex,
          double startColumn,
          double startRow,
@@ -14,6 +16,8 @@ public abstract class Player {
     this.startColumn = startColumn;
     this.startRow = startRow;
     this.speed = speed;
+    this.curColumn = startColumn;
+    this.curRow = startRow;
   }
 
   public abstract void performMove();

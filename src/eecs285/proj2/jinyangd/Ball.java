@@ -1,17 +1,24 @@
 package eecs285.proj2.jinyangd;
 
-public class Defender extends Player {
+public class Ball {
+  public double startColumn;
+  public double startRow;
   public double stopColumn;
   public double stopRow;
+  public double speed;
+  public double curColumn;
+  public double curRow;
 
-  Defender(int playerIndex,
-           double startColumn,
-           double startRow,
-           double speed) {
-    super(playerIndex, startColumn, startRow, speed);
+  Ball(double startColumn, double startRow, double stopColumn, double stopRow, double speed) {
+    this.startColumn = startColumn;
+    this.startRow = startRow;
+    this.stopColumn = stopColumn;
+    this.stopRow = stopRow;
+    this.speed = speed;
+    this.curColumn = startColumn;
+    this.curRow = startRow;
   }
 
-  @Override
   public void performMove() {
     if (curColumn == stopColumn && curRow == stopRow) return;
     double dirColumn = stopColumn - curColumn;

@@ -6,8 +6,6 @@ public class Quarterback extends Player {
   public double throwToColumn;
   public double throwToRow;
   public double throwSpeed;
-  public double curColumn;
-  public double curRow;
 
   Quarterback(int playerIndex,
               double startColumn,
@@ -24,8 +22,6 @@ public class Quarterback extends Player {
     this.throwToColumn = throwToColumn;
     this.throwToRow = throwToRow;
     this.throwSpeed = throwSpeed;
-    this.curColumn = startColumn;
-    this.curRow = startRow;
   }
 
   @Override
@@ -40,25 +36,29 @@ public class Quarterback extends Player {
     double stepRow = dirRowUnit * speed;
     double tempColumn = curColumn + stepColumn;
     double tempRow = curRow + stepRow;
-    if ((curColumn <= stopColumn && curRow <= stopRow) && 
+    if ((curColumn <= stopColumn && curRow <= stopRow) &&
         (tempColumn >= stopColumn && tempRow >= stopRow)) {
       curColumn = stopColumn;
       curRow = stopRow;
+      isThrown = true;
     }
     else if ((curColumn >= stopColumn && curRow >= stopRow) &&
              (tempColumn <= stopColumn && tempRow <= stopRow)) {
       curColumn = stopColumn;
       curRow = stopRow;
+      isThrown = true;
     }
     else if ((curColumn <= stopColumn && curRow >= stopRow) &&
              (tempColumn >= stopColumn && tempRow <= stopRow)) {
       curColumn = stopColumn;
       curRow = stopRow;
+      isThrown = true;
     }
     else if ((curColumn >= stopColumn && curRow <= stopRow) &&
              (tempColumn <= stopColumn && tempRow >= stopRow)) {
       curColumn = stopColumn;
       curRow = stopRow;
+      isThrown = true;
     }
     else {
       curColumn = tempColumn;
